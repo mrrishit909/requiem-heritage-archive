@@ -8,7 +8,7 @@ import { irisSet } from "./transition";
 // 4 the fragments reverse into a clean digital reconstruction, 5 the camera passes through the gate's arch and the arch-shaped window opens on the museum.
 export default function Intro() {
   const s = useStore(), tl = useRef<gsap.core.Timeline | null>(null), [year, setYear] = useState(1802), [cap, setCap] = useState(""), [line, setLine] = useState(false);
-  const finish = () => { tl.current?.kill(); Object.assign(live, { asm: 1, solid: 1, fragK: 0, recon: 0, year: 2026 }); irisSet("300vmax"); document.documentElement.style.setProperty("--ui", "1"); set({ introDone: true, introStep: 99, space: "museum", view: "museum", year: 2026, layer: "material" }); setLine(false); };
+  const finish = () => { tl.current?.kill(); Object.assign(live, { asm: 1, solid: 1, fragK: 0, recon: 0 }); irisSet("300vmax"); document.documentElement.style.setProperty("--ui", "1"); set({ introFx: false, introStep: 99, ...(state.introDone ? {} : { introDone: true, space: "museum" as const, view: "museum" as const, year: 2026, layer: "material" as const }) }); setLine(false); }; // never overwrite what the visitor did while the last fade ran
   useEffect(() => {
     if (state.reduced) return; gsap.ticker.lagSmoothing(0);
     Object.assign(live, { asm: 0, solid: 0, fragK: 0, recon: 0, year: 1802 }); live.cam.set(26, 11, 40); live.look.set(0, 3, 0); document.documentElement.style.setProperty("--ui", "0"); irisSet("300vmax");
@@ -24,16 +24,16 @@ export default function Intro() {
       .to(live.cam, { x: 0, y: 3, z: 30, duration: 2.4 }, 16.8).to(live.look, { x: 0, y: 2.4, z: -6, duration: 2.4 }, 16.8)
       .call(step(5, ""), [], 19.6).to(live.cam, { x: 0, y: 1.7, z: 4, duration: 2.2, ease: "power2.in" }, 19.6)
       .to(o, { w: 7, duration: 1.2, ease: "power2.in", onUpdate: () => irisSet(`${o.w}vmax`) }, 20.5)
-      .call(() => { set({ space: "museum", introDone: true, introStep: 99, view: "museum", year: 2026, layer: "material" }); Object.assign(live, { year: 2026, solid: 1, recon: 0 }); }, [], 21.8)
+      .call(() => { set({ space: "museum", introDone: true, introFx: true, introStep: 99, view: "museum", year: 2026, layer: "material" }); Object.assign(live, { year: 2026, solid: 1, recon: 0 }); }, [], 21.8)
       .to(o, { w: 300, duration: 1.4, ease: "power2.out", onUpdate: () => irisSet(`${o.w}vmax`) }, 22.0).to({ u: 0 }, { u: 1, duration: 1, onUpdate() { document.documentElement.style.setProperty("--ui", String((this.targets()[0] as { u: number }).u)); } }, 22.6);
-    return () => { t.kill(); }; // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => { if (!state.introDone) t.kill(); }; // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const skip = () => { const t = tl.current; if (t && t.time() < 19.5) t.seek(19.6); else finish(); };
-  if (s.introDone) return null;
+  if (s.introDone && !s.introFx) return null;
   if (s.reduced) { const fr = [["1802", "Pieces of columns, masonry and beams make a whole building."], ["1893 to 1994", "Earthquake, fire, abandonment and shelling take its roofs, its door, its vault."], ["Today", "Buildings disappear. Memory doesn't have to."], ["The museum", "A clean digital reconstruction, and the archive behind it."]];
     return (<div className="intro intro-static" role="dialog" aria-label="Opening story" data-testid="intro"><ol>{fr.map(([a, b], i) => <li key={i}><b>{a}</b> {b}</li>)}</ol><button className="btn primary" onClick={finish} data-testid="skip-intro">Enter the museum</button></div>); }
   return (<div className="intro" data-testid="intro" data-step={s.introStep}>
     {s.introStep >= 2 && s.introStep <= 3 && <div className="yearbig" aria-hidden>{year}</div>}
     {line && <h1 className="statement" data-testid="statement"><span>Buildings disappear.</span> <span>Memory doesn&rsquo;t have to.</span></h1>}
-    <p className="caption" role="status">{cap}</p><button className="btn skip" onClick={skip} data-testid="skip-intro" autoFocus>Skip intro</button></div>);
+    <p className="caption" role="status">{cap}</p>{!s.introDone && <button className="btn skip" onClick={skip} data-testid="skip-intro" autoFocus>Skip intro</button>}</div>);
 }

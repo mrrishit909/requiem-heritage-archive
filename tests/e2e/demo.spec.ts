@@ -9,7 +9,9 @@ test("demo walk: intro, museum, open the structure, scrub, layers, archive ancho
   await page.goto("/");
   // 1. the intro: skip is available from the first frame; it jumps to the camera's pass through the arch and the arch-shaped window opens on the museum
   await expect(page.getByTestId("skip-intro")).toBeVisible(); await expect(page.getByTestId("intro")).toHaveAttribute("data-step", /[0-9]/);
-  await page.getByTestId("skip-intro").click(); await expect(page.getByTestId("intro")).toBeHidden({ timeout: 25_000 });
+  await page.getByTestId("skip-intro").click(); await expect(page.getByTestId("intro")).toHaveCount(0, { timeout: 40_000 });
+  // the arch-shaped window must have opened fully and the interface must be opaque: visible-to-Playwright is not the same as seen
+  expect(await page.evaluate(() => [getComputedStyle(document.documentElement).getPropertyValue("--aw").trim(), getComputedStyle(document.querySelector("[data-testid=hud]")!).opacity])).toEqual(["300vmax", "1"]);
   // 2. in the museum
   await expect(page.getByRole("heading", { name: "The collection" })).toBeVisible(); await expect(page.getByTestId("where")).toHaveText("In the museum"); await expect(page.getByTestId("sites").locator("button")).toHaveCount(4);
   // 3. open the flagship through the arch

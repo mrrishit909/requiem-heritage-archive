@@ -29,7 +29,7 @@ export default function App() {
   return (
     <div className="app" data-view={s.view} data-space={s.space} data-intro={s.introDone ? "done" : "running"} data-gfx={s.gfx} data-layer={s.layer}>
       {s.gfx === "webgl" ? <Scene data={data} /> : <div className="poster" style={{ backgroundImage: `url(${base}/posters/site.png)` }} role="img" aria-label="Still of Orisk Caravan House, a fictional walled caravan house with a gate arch, two towers and a colonnaded hall" data-testid="poster" />}
-      <div className="vignette" aria-hidden /><Panels data={data} /><div className="iris" aria-hidden />{!s.introDone && <Intro />}
+      <div className="vignette" aria-hidden /><Panels data={data} /><div className="iris" aria-hidden />{(!s.introDone || s.introFx) && <Intro />}
     </div>
   );
 }
