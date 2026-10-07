@@ -11,7 +11,7 @@ export default function App() {
   useEffect(() => {
     const q = new URLSearchParams(location.search), rm = matchMedia("(prefers-reduced-motion: reduce)").matches || q.get("motion") === "reduced", view = VIEWS.find((v) => v.id === q.get("view"))?.id, skip = q.get("skip") === "1" || !!view;
     const layer = (["material", "structure", "damage", "recon"] as Layer[]).find((l) => l === q.get("layer")), year = Number(q.get("year"));
-    set({ reduced: rm, pauseMotion: rm, gfx: q.get("gfx") === "off" || !webglOk() ? "poster" : "webgl", ...(view ? { view, space: view === "museum" ? "museum" : "site" } : {}), ...(layer ? { layer } : {}), ...(Number.isFinite(year) && year >= 1790 && year <= 2026 && q.get("year") ? { year } : {}), ...(q.get("item") ? { selItem: q.get("item") } : {}), ...(q.get("nav") === "walk" || q.get("nav") === "fly" ? { nav: q.get("nav") as "walk" | "fly" } : {}), ...(skip ? { introDone: true, introStep: 99 } : {}) });
+    set({ reduced: rm, pauseMotion: rm, gfx: q.get("gfx") === "off" || !webglOk() ? "poster" : "webgl", ...(view ? { view, space: view === "museum" ? "museum" : "site" } : {}), ...(layer ? { layer } : view === "conservation" ? { layer: "damage" as Layer } : {}), ...(Number.isFinite(year) && year >= 1790 && year <= 2026 && q.get("year") ? { year } : {}), ...(q.get("item") ? { selItem: q.get("item") } : {}), ...(q.get("nav") === "walk" || q.get("nav") === "fly" ? { nav: q.get("nav") as "walk" | "fly" } : {}), ...(skip ? { introDone: true, introStep: 99 } : {}) });
     if (skip) { document.documentElement.style.setProperty("--ui", "1"); document.documentElement.style.setProperty("--aw", "300vmax"); live.year = state.year; }
     loadData().then(setData).catch((e) => setErr(String(e)));
   }, []);

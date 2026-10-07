@@ -31,14 +31,14 @@ const archive: ArchiveItem[] = [
   { id: "a14", type: "document", title: "Salt-merchants' inventory", year: 1802, part: "Hall_Wall_Back", offset: [0.3, 0.1, 0.5], source: "Guild archive (fictional)", caption: "Lists the stores kept in the hall and the carpets on the walls.", svg: text("Inventory, 1802", ["Hall: forty bales of rock salt, eleven carpets,", "two chests of ledgers, a brass scale, one well-rope.", "Gate: a door of cedar bound in iron, two lamps.", "Courtyard: stabling for sixty animals."]) },
 ];
 const interventions: Intervention[] = [
-  { id: "i1", label: "Emergency propping of the gate arch", parts: ["Gate_Arch", "Gate_PierL", "Gate_PierR"], cost: 38000, reduction: 0.35, status: "done", year: 2023 },
-  { id: "i2", label: "Stabilise the vault remnant with a tie-rod frame", parts: ["Hall_Vault_Remnant", "Hall_Wall_R"], cost: 92000, reduction: 0.55, status: "proposed", year: 2027 },
-  { id: "i3", label: "Re-point and buttress the west wall", parts: ["Wall_W", "Foundation"], cost: 64000, reduction: 0.45, status: "planned", year: 2026 },
-  { id: "i4", label: "Raise a temporary roof over the north-east tower stump", parts: ["Tower_NE"], cost: 45000, reduction: 0.4, status: "proposed", year: 2027 },
-  { id: "i5", label: "Consolidate the surviving colonnade and beam", parts: ["Col_1", "Col_2", "Col_3", "Col_4", "Col_7", "Col_8", "Colonnade_Beam"], cost: 71000, reduction: 0.4, status: "proposed", year: 2028 },
-  { id: "i6", label: "Cover and consolidate the remaining painted plaster", parts: ["Plaster_Hall", "Gate_Ornament", "Tiles_Gate", "Gate_Parapet"], cost: 29000, reduction: 0.6, status: "proposed", year: 2026 },
-  { id: "i7", label: "Drainage and flood barrier at the courtyard", parts: ["Foundation", "Courtyard_Floor", "Wall_S_W", "Wall_S_E"], cost: 54000, reduction: 0.4, status: "planned", year: 2027 },
-  { id: "i8", label: "Digital record: full laser scan and photogrammetry", parts: ["Wall_N", "Wall_E", "Tower_SW", "Hall_Wall_Back"], cost: 18000, reduction: 0.05, status: "proposed", year: 2026 },
+  { id: "i1", short: "Gate arch props", label: "Emergency propping of the gate arch", parts: ["Gate_Arch", "Gate_PierL", "Gate_PierR"], cost: 38000, reduction: 0.35, status: "done", year: 2023 },
+  { id: "i2", short: "Vault tie-rod frame", label: "Stabilise the vault remnant with a tie-rod frame", parts: ["Hall_Vault_Remnant", "Hall_Wall_R"], cost: 92000, reduction: 0.55, status: "proposed", year: 2027 },
+  { id: "i3", short: "West wall buttress", label: "Re-point and buttress the west wall", parts: ["Wall_W", "Foundation"], cost: 64000, reduction: 0.45, status: "planned", year: 2026 },
+  { id: "i4", short: "Tower stump roof", label: "Raise a temporary roof over the north-east tower stump", parts: ["Tower_NE"], cost: 45000, reduction: 0.4, status: "proposed", year: 2027 },
+  { id: "i5", short: "Colonnade consolidation", label: "Consolidate the surviving colonnade and beam", parts: ["Col_1", "Col_2", "Col_3", "Col_4", "Col_7", "Col_8", "Colonnade_Beam"], cost: 71000, reduction: 0.4, status: "proposed", year: 2028 },
+  { id: "i6", short: "Plaster consolidation", label: "Cover and consolidate the remaining painted plaster", parts: ["Plaster_Hall", "Gate_Ornament", "Tiles_Gate", "Gate_Parapet"], cost: 29000, reduction: 0.6, status: "proposed", year: 2026 },
+  { id: "i7", short: "Courtyard drainage", label: "Drainage and flood barrier at the courtyard", parts: ["Foundation", "Courtyard_Floor", "Wall_S_W", "Wall_S_E"], cost: 54000, reduction: 0.4, status: "planned", year: 2027 },
+  { id: "i8", short: "Digital record", label: "Digital record: full laser scan and photogrammetry", parts: ["Wall_N", "Wall_E", "Tower_SW", "Hall_Wall_Back"], cost: 18000, reduction: 0.05, status: "proposed", year: 2026 },
 ];
 const out = new URL("../generated/", import.meta.url).pathname; mkdirSync(out, { recursive: true });
 const w = (n: string, v: unknown) => writeFileSync(out + n + ".json", JSON.stringify(v));
